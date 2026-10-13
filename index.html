@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Shadow AI Sentinel</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <div class="dashboard">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+      <div class="logo">
+
+        <span class="logo-icon">⬡</span>
+
+        <span>SHADOW <b>AI</b></span>
+
+      </div>
+
+      <p class="side-label">MENU</p>
+
+      <nav>
+
+        <a class="nav-link active" href="#dashboard">▦ Dashboard</a>
+
+        <a class="nav-link" href="#scanner">⌕ Prompt Scanner</a>
+
+        <a class="nav-link" href="#events">◷ Security Events</a>
+
+        <a class="nav-link" href="#analytics">▥ Analytics</a>
+
+        <a class="nav-link" href="#about">⚙ Settings</a>
+
+      </nav>
+
+      <div class="sidebar-bottom">
+
+        <div class="shield-art">⬡</div>
+
+        <p>Stay protected.<br><b>Stay secure.</b></p>
+
+        <small>AI SECURITY SYSTEM</small>
+
+      </div>
+
+    </aside>
+
+    <!-- Main content -->
+
+    <main class="main-content" id="dashboard">
+
+      <header class="topbar">
+
+        <div>
+
+          <p class="eyebrow">SECURITY OVERVIEW</p>
+
+          <h1>Shadow AI Sentinel</h1>
+
+          <p class="subtitle">Data Loss Prevention for AI prompts</p>
+
+        </div>
+
+        <div class="online"><span class="pulse"></span> System Online</div>
+
+      </header>
+
+      <section class="welcome">
+
+        <div>
+
+          <p class="eyebrow">WELCOME BACK</p>
+
+          <h2>Monitor. Detect. Protect.</h2>
+
+          <p>Keep your AI prompts safe with intelligent security monitoring.</p>
+
+        </div>
+
+        <div class="welcome-symbol">⬡</div>
+
+      </section>
+
+      <!-- Stats -->
+
+      <section class="stats-grid">
+
+        <article class="stat-card">
+
+          <div class="stat-top"><span>Total Prompts Scanned</span><span class="stat-icon blue">⌕</span></div>
+
+          <h2>1,248</h2>
+
+          <p class="stat-note">Demo data</p>
+
+          <div class="mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+        </article>
+
+        <article class="stat-card">
+
+          <div class="stat-top"><span>Blocked Requests</span><span class="stat-icon red">⊘</span></div>
+
+          <h2>86</h2>
+
+          <p class="stat-note">Demo data</p>
+
+          <div class="mini-bars red-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+        </article>
+
+        <article class="stat-card">
+
+          <div class="stat-top"><span>Redacted Prompts</span><span class="stat-icon yellow">◈</span></div>
+
+          <h2>142</h2>
+
+          <p class="stat-note">Demo data</p>
+
+          <div class="mini-bars yellow-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+        </article>
+
+        <article class="stat-card">
+
+          <div class="stat-top"><span>Safe Requests</span><span class="stat-icon green">✓</span></div>
+
+          <h2>1,020</h2>
+
+          <p class="stat-note">Demo data</p>
+
+          <div class="mini-bars green-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+        </article>
+
+      </section>
+
+      <!-- Scanner and risk -->
+
+      <section class="content-grid" id="scanner">
+
+        <article class="panel scanner-panel">
+
+          <div class="panel-heading">
+
+            <div>
+
+              <p class="eyebrow">REAL-TIME ANALYSIS</p>
+
+              <h2>Prompt Security Scanner</h2>
+
+            </div>
+
+            <span class="live-tag"><span class="pulse"></span> DEMO</span>
+
+          </div>
+
+          <p class="muted">Enter a sample prompt to see the demo interface in action.</p>
+
+          <textarea id="prompt" placeholder="Type your sample AI prompt here..."></textarea>
+
+          <div class="scanner-actions">
+
+            <span class="muted small">Do not enter real passwords or API keys.</span>
+
+            <button id="scanButton" onclick="scanPrompt()">⌕ Scan Prompt</button>
+
+          </div>
+
+          <div id="result" class="result hidden" aria-live="polite"></div>
+
+        </article>
+
+        <article class="panel risk-panel">
+
+          <div class="panel-heading">
+
+            <div>
+
+              <p class="eyebrow">THREAT MONITOR</p>
+
+              <h2>Current Risk Score</h2>
+
+            </div>
+
+            <span class="live-tag">LIVE DEMO</span>
+
+          </div>
+
+          <div class="risk-circle" id="riskCircle">
+
+            <div class="risk-inner">
+
+              <strong id="riskScore">25</strong>
+
+              <span>/ 100</span>
+
+              <small id="riskLabel">Low Risk</small>
+
+            </div>
+
+          </div>
+
+          <div class="risk-legend">
+
+            <span><i class="dot low"></i> Low 0–30</span>
+
+            <span><i class="dot medium"></i> Medium 31–70</span>
+
+            <span><i class="dot high"></i> High 71–100</span>
+
+          </div>
+
+        </article>
+
+      </section>
+
+      <!-- Detection summary -->
+
+      <section class="panel detection-panel">
+
+        <div class="panel-heading">
+
+          <div>
+
+            <p class="eyebrow">THREAT INTELLIGENCE</p>
+
+            <h2>Quick Security Summary</h2>
+
+          </div>
+
+        </div>
+
+        <div class="detection-grid">
+
+          <div class="detection-item"><span class="detect-icon">⌘</span><div><strong>12</strong><small>API Keys</small></div></div>
+
+          <div class="detection-item"><span class="detect-icon">✉</span><div><strong>28</strong><small>Emails</small></div></div>
+
+          <div class="detection-item"><span class="detect-icon">☎</span><div><strong>17</strong><small>Phone Numbers</small></div></div>
+
+          <div class="detection-item"><span class="detect-icon">▣</span><div><strong>9</strong><small>Organizations</small></div></div>
+
+          <div class="detection-item"><span class="detect-icon">⌖</span><div><strong>6</strong><small>Locations</small></div></div>
+
+        </div>
+
+        <p class="muted small">Illustrative counts for the dashboard design.</p>
+
+      </section>
+
+      <!-- Event history -->
+
+      <section class="panel events-panel" id="events">
+
+        <div class="panel-heading">
+
+          <div>
+
+            <p class="eyebrow">ACTIVITY LOG</p>
+
+            <h2>Security Event History</h2>
+
+          </div>
+
+          <span class="live-tag">DEMO DATA</span>
+
+        </div>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr><th>Prompt</th><th>Risk Level</th><th>Status</th><th>Time</th></tr>
+
+            </thead>
+
+            <tbody id="eventBody">
+
+              <tr><td>Sample prompt for testing</td><td><span class="badge medium-badge">Medium</span></td><td><span class="badge red-badge">Blocked</span></td><td>09:30 AM</td></tr>
+
+              <tr><td>General question about AI</td><td><span class="badge low-badge">Low</span></td><td><span class="badge green-badge">Allowed</span></td><td>09:25 AM</td></tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+      <footer id="about">Shadow AI Sentinel <span>•</span> Frontend Demo</footer>
+
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>

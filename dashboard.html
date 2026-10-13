@@ -1,0 +1,822 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shadow AI Sentinel</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #07111f;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            padding: 22px 0;
+            border-bottom: 1px solid #1d344d;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #00e5ff;
+        }
+
+        .status {
+            color: #35e58c;
+            font-size: 14px;
+        }
+
+        /* HERO */
+
+        .hero {
+            text-align: center;
+            padding: 65px 0 40px;
+        }
+
+        .hero h1 {
+            font-size: clamp(35px, 6vw, 60px);
+            margin-bottom: 15px;
+
+            background: linear-gradient(
+                90deg,
+                #ffffff,
+                #00e5ff,
+                #a78bfa
+            );
+
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #94a8bd;
+            font-size: 17px;
+        }
+
+        /* SCANNER */
+
+        .scanner {
+            background: #0d1b2a;
+            border: 1px solid #203b55;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.08);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            margin-top: 15px;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #29445e;
+            background: #07111f;
+            color: white;
+            resize: vertical;
+            font-size: 15px;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #00e5ff;
+        }
+
+        .scan-btn {
+            margin-top: 18px;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 10px;
+            background: #00cfe8;
+            color: #00131b;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .scan-btn:hover {
+            background: #35e5ff;
+            transform: translateY(-2px);
+        }
+
+        /* RESULT */
+
+        .result {
+            display: none;
+            margin-top: 25px;
+            padding: 22px;
+            border-radius: 15px;
+            background: #07111f;
+            border: 1px solid #29445e;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .result-card {
+            background: #102235;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .result-card h2 {
+            margin-top: 8px;
+            color: #00e5ff;
+        }
+
+        /* RISK METER */
+
+        .risk-meter {
+            margin-top: 25px;
+        }
+
+        .meter-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .meter {
+            width: 100%;
+            height: 18px;
+            background: #1b3045;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+            transition: width 1s ease;
+            background: #35e58c;
+        }
+
+        #riskText {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* METRICS */
+
+        .section-title {
+            margin: 45px 0 20px;
+            font-size: 25px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .metric {
+            background: #0d1b2a;
+            border: 1px solid #203b55;
+            padding: 25px;
+            border-radius: 16px;
+        }
+
+        .metric p {
+            color: #8da2b8;
+            margin-bottom: 10px;
+        }
+
+        .metric h2 {
+            font-size: 32px;
+            color: #00e5ff;
+        }
+
+        /* CHARTS */
+
+        .charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-box {
+            background: #0d1b2a;
+            border: 1px solid #203b55;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        canvas {
+            max-height: 300px;
+        }
+
+        /* LOGS */
+
+        .logs {
+            background: #0d1b2a;
+            border: 1px solid #203b55;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 50px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #203b55;
+        }
+
+        th {
+            color: #00e5ff;
+        }
+
+        td {
+            color: #c1cfdd;
+        }
+
+        .LOW {
+            color: #35e58c;
+        }
+
+        .MEDIUM {
+            color: #ffd166;
+        }
+
+        .HIGH {
+            color: #ff5c5c;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts {
+                grid-template-columns: 1fr;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 40px;
+            }
+
+            .scanner {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="container nav">
+        <div class="logo">🛡 Shadow AI Sentinel</div>
+        <div class="status">● SYSTEM ONLINE</div>
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <h1>AI Security Command Center</h1>
+
+        <p>
+            Detect sensitive information before it reaches an external AI model.
+        </p>
+
+    </section>
+
+
+    <!-- SCANNER -->
+
+    <section class="scanner">
+
+        <h2>🔍 Prompt Security Scanner</h2>
+
+        <p style="color:#8da2b8; margin-top:8px;">
+            Enter a prompt to analyze it for sensitive information.
+        </p>
+
+        <textarea
+            id="prompt"
+            placeholder="Example: My email is test@gmail.com and my phone is 9876543210"
+        ></textarea>
+
+        <button class="scan-btn" onclick="scanPrompt()">
+            ⚡ SCAN PROMPT
+        </button>
+
+
+        <!-- RESULT -->
+
+        <div class="result" id="result">
+
+            <h2>Security Analysis</h2>
+
+            <div class="result-grid">
+
+                <div class="result-card">
+                    <p>Risk Score</p>
+                    <h2 id="riskScore">0</h2>
+                </div>
+
+                <div class="result-card">
+                    <p>Risk Level</p>
+                    <h2 id="riskLevel">LOW</h2>
+                </div>
+
+                <div class="result-card">
+                    <p>Action</p>
+                    <h2 id="action">ALLOW</h2>
+                </div>
+
+            </div>
+
+
+            <!-- RISK METER -->
+
+            <div class="risk-meter">
+
+                <div class="meter-header">
+
+                    <span>Risk Level</span>
+
+                    <span id="riskText">0%</span>
+
+                </div>
+
+                <div class="meter">
+
+                    <div
+                        class="meter-fill"
+                        id="meterFill">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DASHBOARD METRICS -->
+
+    <h2 class="section-title">
+        📊 Security Overview
+    </h2>
+
+    <section class="metrics">
+
+        <div class="metric">
+            <p>Total Scans</p>
+            <h2 id="totalScans">0</h2>
+        </div>
+
+        <div class="metric">
+            <p>Low Risk</p>
+            <h2 id="lowCount">0</h2>
+        </div>
+
+        <div class="metric">
+            <p>Medium Risk</p>
+            <h2 id="mediumCount">0</h2>
+        </div>
+
+        <div class="metric">
+            <p>High Risk</p>
+            <h2 id="highCount">0</h2>
+        </div>
+
+    </section>
+
+
+    <!-- CHARTS -->
+
+    <h2 class="section-title">
+        📈 Security Analytics
+    </h2>
+
+    <section class="charts">
+
+        <div class="chart-box">
+
+            <h3>Risk Distribution</h3>
+
+            <canvas id="riskChart"></canvas>
+
+        </div>
+
+
+        <div class="chart-box">
+
+            <h3>Security Actions</h3>
+
+            <canvas id="actionChart"></canvas>
+
+        </div>
+
+    </section>
+
+
+    <!-- LOGS -->
+
+    <h2 class="section-title">
+        🛡 Recent Security Events
+    </h2>
+
+    <section class="logs">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Prompt</th>
+                    <th>Risk</th>
+                    <th>Level</th>
+                    <th>Action</th>
+                    <th>Time</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="logsTable">
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</div>
+
+
+<script>
+
+let riskChart;
+let actionChart;
+
+
+/* SCAN PROMPT */
+
+async function scanPrompt() {
+
+    const prompt = document.getElementById("prompt").value;
+
+    if (!prompt.trim()) {
+
+        alert("Please enter a prompt.");
+
+        return;
+    }
+
+
+    const response = await fetch("/scan", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            prompt: prompt
+        })
+
+    });
+
+
+    const data = await response.json();
+
+
+    document.getElementById("result").style.display = "block";
+
+
+    document.getElementById("riskScore").innerText =
+        data.risk_score;
+
+
+    document.getElementById("riskLevel").innerText =
+        data.risk_level;
+
+
+    document.getElementById("action").innerText =
+        data.action;
+
+
+    /* RISK METER */
+
+    const score = Math.min(data.risk_score, 100);
+
+    document.getElementById("riskText").innerText =
+        score + "%";
+
+
+    const meter = document.getElementById("meterFill");
+
+    meter.style.width = score + "%";
+
+
+    if (score < 30) {
+
+        meter.style.background = "#35e58c";
+
+    }
+    else if (score < 60) {
+
+        meter.style.background = "#ffd166";
+
+    }
+    else {
+
+        meter.style.background = "#ff5c5c";
+
+    }
+
+
+    loadDashboard();
+
+}
+
+
+/* LOAD DASHBOARD */
+
+async function loadDashboard() {
+
+    const statsResponse =
+        await fetch("/stats");
+
+    const stats =
+        await statsResponse.json();
+
+
+    document.getElementById("totalScans").innerText =
+        stats.total_scans;
+
+
+    document.getElementById("lowCount").innerText =
+        stats.risk_levels.low;
+
+
+    document.getElementById("mediumCount").innerText =
+        stats.risk_levels.medium;
+
+
+    document.getElementById("highCount").innerText =
+        stats.risk_levels.high;
+
+
+    /* RISK CHART */
+
+    if (riskChart) {
+        riskChart.destroy();
+    }
+
+
+    riskChart = new Chart(
+
+        document.getElementById("riskChart"),
+
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+                    "LOW",
+                    "MEDIUM",
+                    "HIGH"
+                ],
+
+                datasets: [
+
+                    {
+
+                        label: "Scans",
+
+                        data: [
+
+                            stats.risk_levels.low,
+                            stats.risk_levels.medium,
+                            stats.risk_levels.high
+
+                        ]
+
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                scales: {
+
+                    y: {
+                        beginAtZero: true
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+
+    /* ACTION CHART */
+
+    if (actionChart) {
+        actionChart.destroy();
+    }
+
+
+    actionChart = new Chart(
+
+        document.getElementById("actionChart"),
+
+        {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: [
+                    "ALLOW",
+                    "REDACT",
+                    "BLOCK"
+                ],
+
+                datasets: [
+
+                    {
+
+                        data: [
+
+                            stats.actions.allow,
+                            stats.actions.redact,
+                            stats.actions.block
+
+                        ]
+
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true
+
+            }
+
+        }
+
+    );
+
+
+    /* LOGS */
+
+    const logsResponse =
+        await fetch("/logs");
+
+    const logsData =
+        await logsResponse.json();
+
+
+    const table =
+        document.getElementById("logsTable");
+
+
+    table.innerHTML = "";
+
+
+    logsData.logs.forEach(log => {
+
+        const row = document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>${log.id}</td>
+
+            <td>${escapeHTML(log.prompt)}</td>
+
+            <td>${log.risk_score}</td>
+
+            <td class="${log.risk_level}">
+                ${log.risk_level}
+            </td>
+
+            <td class="${log.risk_level}">
+                ${log.action}
+            </td>
+
+            <td>
+                ${log.timestamp}
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+/* SECURITY FUNCTION */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.innerText = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* INITIAL LOAD */
+
+loadDashboard();
+
+
+/* AUTO REFRESH */
+
+setInterval(
+
+    loadDashboard,
+
+    10000
+
+);
+
+</script>
+
+</body>
+</html>
